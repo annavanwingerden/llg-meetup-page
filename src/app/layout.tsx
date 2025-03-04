@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Our Next Meetup - London Longboard Girls",
+  title: "Next Meetup - London Longboard Girls",
   description: "Check out the details for London Longboard Girls' next meetup!",
 };
 

@@ -1,17 +1,17 @@
 import Link from "next/link"
 import Image from "next/image"
-import { SkullIcon as Skateboard } from "lucide-react"
+import { Venus } from "lucide-react"  
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-10 w-full border-b bg-gray-100/80 backdrop-blur-md dark:bg-slate-900/80 dark:border-slate-700">
+    <header className="sticky top-0 z-10 w-full border-b bg-[#f7f7eb]/80 backdrop-blur-md dark:bg-slate-900/80 dark:border-slate-700">
       <div className="container mx-auto px-4 py-4 flex items-center justify-between">
         <Link href="/" className="flex items-center space-x-2">
-          <Skateboard className="h-6 w-6 text-sky-600 dark:text-sky-400" />
+          <Venus className="h-6 w-6 text-sky-600 dark:text-sky-400" />  {/* Changed from SkullIcon */}
           <Image
             src="/logo.png"
-            alt="London Longboard Girls"
-            width={200 }
+            alt="London Longboard Girls!"
+            width={200}
             height={70}
             style={{ height: 'auto' }}
           />

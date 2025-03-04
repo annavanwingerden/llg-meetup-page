@@ -13,11 +13,12 @@ export function EventDetails({ title, description, location, date }: EventDetail
   return (
     <Card className="overflow-hidden border-none shadow-lg">
       <div 
-        className="h-48 relative"
+        className="h-120 relative"
         style={{
-          backgroundImage: 'url("/llg-header.png")',
+          backgroundImage: 'url("/llg-event.png")',
           backgroundSize: 'cover',
-          backgroundPosition: '50% 59%',
+          backgroundPosition: 'center 40%%',
+          backgroundRepeat: 'no-repeat'
         }}
       >
         <div className="absolute inset-0 bg-black/30"></div>

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Cloud, Sun, CloudRain, CloudSnow, CloudFog, CloudLightning, CloudDrizzle } from 'lucide-react';
 
 interface WeatherData {
   current: {
@@ -34,9 +35,31 @@ const getWeatherDescription = (code: number): string => {
     71: 'Slight snow',
     73: 'Moderate snow',
     75: 'Heavy snow',
-    95: 'Thunderstorm',
+    95: 'Thunderstorm'
   };
   return weatherCodes[code] || 'Unknown';
+};
+
+const getWeatherIcon = (code: number) => {
+  switch (true) {
+    case [0].includes(code): return <Sun className="h-6 w-6" />;
+    case [1, 2, 3].includes(code): return <Cloud className="h-6 w-6" />;
+    case [45, 48].includes(code): return <CloudFog className="h-6 w-6" />;
+    case [51, 53, 55].includes(code): return <CloudDrizzle className="h-6 w-6" />;
+    case [61, 63, 65].includes(code): return <CloudRain className="h-6 w-6" />;
+    case [71, 73, 75].includes(code): return <CloudSnow className="h-6 w-6" />;
+    case [95].includes(code): return <CloudLightning className="h-6 w-6" />;
+    default: return <Cloud className="h-6 w-6" />;
+  }
+};
+
+const formatForecastTime = (isoString: string) => {
+  const date = new Date(isoString);
+  return date.toLocaleTimeString('en-GB', { 
+    hour: '2-digit', 
+    minute: '2-digit',
+    hour12: true 
+  });
 };
 
 export default function Weather() {
@@ -89,30 +112,40 @@ export default function Weather() {
   return (
     <div className="p-4 bg-white rounded-lg shadow">
       <h2 className="text-xl font-semibold mb-4">Current Weather</h2>
-      <div className="mb-4">
-        <p className="text-3xl font-bold">
-          {weatherData.current.temperature_2m}°C
-        </p>
-        <p className="text-lg">
-          {getWeatherDescription(weatherData.current.weather_code)}
-        </p>
-        <p className="text-sm text-gray-600">
-          Precipitation: {weatherData.current.precipitation}mm
-        </p>
-      </div>
-      
-      <div className="mt-4">
-        <h3 className="text-lg font-semibold mb-2">Hourly Forecast</h3>
-        <div className="space-y-2">
-          {weatherData.hourly.time.slice(0, 6).map((time, index) => (
-            <div key={time} className="flex justify-between items-center">
-              <span>{new Date(time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</span>
-              <span>{weatherData.hourly.temperature_2m[index]}°C</span>
-              <span>{weatherData.hourly.precipitation_probability[index]}%</span>
+      {weatherData && (
+        <>
+          <div className="mb-4 flex items-center">
+            {getWeatherIcon(weatherData.current.weather_code)}
+            <p className="text-3xl font-bold ml-2">
+              {weatherData.current.temperature_2m}°C
+            </p>
+          </div>
+          <p className="text-lg mb-2">
+            {getWeatherDescription(weatherData.current.weather_code)}
+          </p>
+          <p className="text-sm text-gray-600 mb-4">
+            Precipitation: {weatherData.current.precipitation}mm
+          </p>
+          
+          <div className="mt-4">
+            <h3 className="text-lg font-semibold mb-2">Hourly Forecast</h3>
+            <div className="space-y-3">
+              {weatherData.hourly.time.slice(0, 6).map((time, index) => (
+                <div key={time} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                  <span className="w-20">{formatForecastTime(time)}</span>
+                  <div className="flex items-center">
+                    {getWeatherIcon(weatherData.hourly.weather_code[index])}
+                  </div>
+                  <span className="w-16 text-right">{weatherData.hourly.temperature_2m[index]}°C</span>
+                  <span className="w-16 text-right text-gray-600">
+                    {weatherData.hourly.precipitation_probability[index]}%
+                  </span>
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </div>
+          </div>
+        </>
+      )}
     </div>
   );
 }
