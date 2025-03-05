@@ -10,3 +10,5 @@ Frameworks used:
 
 Languages used:
 - TypeScript
+
+This is an MVP that I am running by the co-organisers for feedback. 
