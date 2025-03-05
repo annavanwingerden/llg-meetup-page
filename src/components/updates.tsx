@@ -46,7 +46,8 @@ export function Updates() {
         setUpdates(mockUpdates)
         setLoading(false)
       } catch (err) {
-        setError("Failed to load updates")
+        setError(true)
+        console.error("Failed to load updates", err)
         setLoading(false)
       }
     }
