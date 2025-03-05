@@ -3,7 +3,6 @@ import { EventDetails } from "@/components/event-details"
 import { Header } from "@/components/header"
 import { Updates } from "@/components/updates"
 import  Weather  from "@/components/weather"
-import { WhatsAppBanner } from "@/components/whatsapp-banner"
 
 export default function Home() {
   return (
@@ -40,13 +39,6 @@ export default function Home() {
 
         <div className="mt-12">
           <Updates />
-        </div>
-
-        <div className="mt-12">
-          <WhatsAppBanner
-            text="Join our WhatsApp group to connect with other longboards and organise informal skates near you!"
-            link="https://chat.whatsapp.com/IpWJsmoPARVL4ADYgu1MXF"
-          />
         </div>
       </main>
     </div>
