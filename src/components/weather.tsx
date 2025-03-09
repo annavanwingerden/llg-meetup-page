@@ -62,6 +62,21 @@ const formatForecastTime = (isoString: string) => {
   });
 };
 
+const getNextHourlyForecasts = (weatherData: WeatherData) => {
+  const currentHour = new Date().getHours();
+  const currentIndex = weatherData.hourly.time.findIndex(time => {
+    const hour = new Date(time).getHours();
+    return hour >= currentHour;
+  });
+
+  return {
+    time: weatherData.hourly.time.slice(currentIndex, currentIndex + 6),
+    temperature_2m: weatherData.hourly.temperature_2m.slice(currentIndex, currentIndex + 6),
+    precipitation_probability: weatherData.hourly.precipitation_probability.slice(currentIndex, currentIndex + 6),
+    weather_code: weatherData.hourly.weather_code.slice(currentIndex, currentIndex + 6),
+  };
+};
+
 export default function Weather() {
   const [weatherData, setWeatherData] = useState<WeatherData | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -132,18 +147,21 @@ export default function Weather() {
           <div className="mt-4">
             <h3 className="text-lg font-semibold mb-2">Hourly Forecast</h3>
             <div className="space-y-3">
-              {weatherData.hourly.time.slice(0, 6).map((time, index) => (
-                <div key={time} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
-                  <span className="w-20">{formatForecastTime(time)}</span>
-                  <div className="flex items-center">
-                    {getWeatherIcon(weatherData.hourly.weather_code[index])}
+              {weatherData && (() => {
+                const forecasts = getNextHourlyForecasts(weatherData);
+                return forecasts.time.map((time, index) => (
+                  <div key={time} className="flex items-center justify-between p-2 hover:bg-gray-50 rounded">
+                    <span className="w-20">{formatForecastTime(time)}</span>
+                    <div className="flex items-center">
+                      {getWeatherIcon(forecasts.weather_code[index])}
+                    </div>
+                    <span className="w-16 text-right">{forecasts.temperature_2m[index]}°C</span>
+                    <span className="w-16 text-right text-gray-600">
+                      {forecasts.precipitation_probability[index]}%
+                    </span>
                   </div>
-                  <span className="w-16 text-right">{weatherData.hourly.temperature_2m[index]}°C</span>
-                  <span className="w-16 text-right text-gray-600">
-                    {weatherData.hourly.precipitation_probability[index]}%
-                  </span>
-                </div>
-              ))}
+                ));
+              })()}
             </div>
           </div>
         </>
