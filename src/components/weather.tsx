@@ -71,12 +71,8 @@ export default function Weather() {
       try {
         console.log('Starting weather fetch');
         
-        // Use absolute URL with the current host
-        const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL 
-          ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
-          : 'http://localhost:3000';
-        
-        const response = await fetch(`${baseUrl}/api/weather`);
+        // Use relative URL instead of absolute URL
+        const response = await fetch('/api/weather');
         console.log('Response status:', response.status);
   
         if (!response.ok) {
@@ -96,6 +92,7 @@ export default function Weather() {
   
     fetchWeather();
   }, []);
+
 
 
   if (error) {
