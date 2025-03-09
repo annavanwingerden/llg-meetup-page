@@ -69,22 +69,27 @@ export default function Weather() {
   useEffect(() => {
     const fetchWeather = async () => {
       try {
-        console.log('Starting weather fetch'); // Debug log
+        console.log('Starting weather fetch');
         
-        const response = await fetch('/api/weather');
-        console.log('Response status:', response.status); // Debug log
+        // Use absolute URL with the current host
+        const baseUrl = process.env.NEXT_PUBLIC_VERCEL_URL 
+          ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}`
+          : 'http://localhost:3000';
+        
+        const response = await fetch(`${baseUrl}/api/weather`);
+        console.log('Response status:', response.status);
   
         if (!response.ok) {
           const errorData = await response.json();
-          console.error('API error details:', errorData); // Debug log
+          console.error('API error details:', errorData);
           throw new Error(`Failed to fetch weather data: ${response.status}`);
         }
   
         const data = await response.json();
-        console.log('Weather data received:', data); // Debug log
+        console.log('Weather data received:', data);
         setWeatherData(data);
       } catch (err) {
-        console.error('Detailed fetch error:', err); // Debug log
+        console.error('Detailed fetch error:', err);
         setError(err instanceof Error ? err.message : 'An error occurred');
       }
     };
