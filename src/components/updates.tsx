@@ -61,7 +61,7 @@ export function Updates() {
   return (
     <Card className="border-none shadow-lg">
       <CardHeader>
-        <CardTitle>Updates from Organizers</CardTitle>
+        <CardTitle>Updates from Organisers</CardTitle>
       </CardHeader>
       <CardContent>
         {loading ? (
