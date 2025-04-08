@@ -9,7 +9,7 @@ export default function Home() {
 
     <div className="min-h-screen bg-gradient-to-b from-sky-50 to-sky-100 dark:from-slate-900 dark:to-slate-800">
       <Header />
-      <main className="container mx-auto px-4 py-8">
+      <main className="container mx-auto px-4 py-8 relative z-0">
       <div className="grid gap-8 md:grid-cols-2">
         <div className="space-y-8 self-start">
           <div className="relative rounded-lg shadow overflow-hidden">
@@ -23,16 +23,16 @@ export default function Home() {
             />
             <div className="relative z-10 p-6">
               <EventDetails
-                title="International Women's Day Meetup!"
-                description="Join us for our bi-monthly longboarding session. All skill levels welcome!"
+                title="Our 3rd Birthday Party!"
+                description="🎈We are turning 3! 🎈 Join us for a spring group skate and to celebrate how far London Longboard Girls have come in the last three years 🛹🎂☀️"
                 location="Albert Memorial, Hyde Park"
-                date="2025-03-08T14:00:00"
+                date="2025-04-12T15:00:00"
               />
             </div>
           </div>
         </div>
           <div className="space-y-8 self-start">
-            <Countdown targetDate="2025-03-08T14:00:00" /> 
+            <Countdown targetDate="2025-04-12T15:00:00" /> 
             <Weather />
           </div>
         </div>

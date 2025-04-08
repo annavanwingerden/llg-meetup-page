@@ -11,6 +11,20 @@ interface Update {
   timestamp: string
 }
 
+interface SheetDBResponse {
+  id: string
+  message: string
+  author: string
+  timestamp: string
+}
+
+function parseSheetDBTimestamp(timestamp: string): string {
+  const [datePart, timePart] = timestamp.split(' ')
+  const [day, month, year] = datePart.split('/')
+  const [hours, minutes] = timePart.split('.')
+  return `${year}-${month}-${day}T${hours}:${minutes}:00`
+}
+
 export function Updates() {
   const [updates, setUpdates] = useState<Update[]>([])
   const [loading, setLoading] = useState(true)
@@ -19,31 +33,20 @@ export function Updates() {
   useEffect(() => {
     const fetchUpdates = async () => {
       try {
-        // In a real implementation, you would fetch from the SheetsDB API
-        // For this example, we'll use mock data
-        const mockUpdates: Update[] = [
-          {
-            id: "1",
-            message:
-              "This weekend's meetup will include a beginner's workshop! If you're new to longboarding, come 30 minutes early for some basic tips and tricks.",
-            author: "Mike (Organizer)",
-            timestamp: "2025-03-01T15:30:00",
-          },
-          {
-            id: "2",
-            message: "Weather looks perfect for Saturday! Don't forget to bring water and sunscreen.",
-            author: "Sarah (Organizer)",
-            timestamp: "2025-03-02T10:15:00",
-          },
-          {
-            id: "3",
-            message: "We'll be taking a group photo at noon, so wear your crew merch if you have it!",
-            author: "Mike (Organizer)",
-            timestamp: "2025-03-03T09:45:00",
-          },
-        ]
+        const response = await fetch('https://sheetdb.io/api/v1/igj17q77h1wad')
+        if (!response.ok) {
+          throw new Error('Failed to fetch updates')
+        }
+        const data = await response.json() as SheetDBResponse[]
+        
+        const formattedUpdates: Update[] = data.map((item) => ({
+          id: item.id,
+          message: item.message,
+          author: item.author,
+          timestamp: parseSheetDBTimestamp(item.timestamp)
+        }))
 
-        setUpdates(mockUpdates)
+        setUpdates(formattedUpdates)
         setLoading(false)
       } catch (err) {
         setError("Failed to load updates")

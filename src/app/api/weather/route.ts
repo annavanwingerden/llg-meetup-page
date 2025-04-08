@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 
+// This is the latitude and longitude of LLG's meetup location in Hyde Park
 const LONDON_LAT = 51.5;
 const LONDON_LON = -0.17;
 
@@ -7,7 +8,7 @@ export async function GET() {
   try {
     const url = `https://api.open-meteo.com/v1/forecast?latitude=${LONDON_LAT}&longitude=${LONDON_LON}&current=temperature_2m,precipitation,weather_code&hourly=temperature_2m,precipitation_probability,weather_code&wind_speed_unit=mph&forecast_days=1`;
     
-    console.log('Fetching from URL:', url); // Debug log
+    console.log('Fetching from URL:', url); 
 
     const response = await fetch(url, {
       method: 'GET',
